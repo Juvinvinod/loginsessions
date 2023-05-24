@@ -6,8 +6,7 @@ var logger = require('morgan');
 const session = require('express-session');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/login');
+// var loginRouter = require('./routes/login');
 
 
 var app = express();
@@ -21,14 +20,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'Your secret key',
+app.use(session({ secret: 'asdf123',
 resave: true,
 saveUninitialized:true
 }));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/login',loginRouter);
+// app.use('/login',loginRouter);
 
 
 // catch 404 and forward to error handler
@@ -47,6 +45,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
+app.get('/',function(req,res,next){
+  console.log('the response will be sent by the next function ...');
+  next()
+},function(req,res,next){
+res.send('Hello from B!');
+})
 
 module.exports = app;
